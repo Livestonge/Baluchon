@@ -36,6 +36,9 @@
 		0966558B283BF44D00894134 /* OpenWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0966558A283BF44D00894134 /* OpenWeather.swift */; };
 		0966558F283BF61000894134 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0966558E283BF61000894134 /* ApiKeys.swift */; };
 		09665593283C249700894134 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09665592283C249700894134 /* ApiKeys.swift */; };
+		09665595283C289300894134 /* Decodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09665594283C289300894134 /* Decodable.swift */; };
+		09665597283C297B00894134 /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09665596283C297B00894134 /* extension.swift */; };
+		09665599283C2A4500894134 /* extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09665598283C2A4500894134 /* extension.swift */; };
 		0981D94227AD3B67000758C8 /* RestApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0981D94127AD3B67000758C8 /* RestApi.swift */; };
 		0981D94427AD9327000758C8 /* MainTranslationControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0981D94327AD9327000758C8 /* MainTranslationControllerViewController.swift */; };
 		0981D94627AD9D50000758C8 /* TranslatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0981D94527AD9D50000758C8 /* TranslatedViewController.swift */; };
@@ -98,6 +101,9 @@
 		0966558A283BF44D00894134 /* OpenWeather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenWeather.swift; sourceTree = "<group>"; };
 		0966558E283BF61000894134 /* ApiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		09665592283C249700894134 /* ApiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
+		09665594283C289300894134 /* Decodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decodable.swift; sourceTree = "<group>"; };
+		09665596283C297B00894134 /* extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
+		09665598283C2A4500894134 /* extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extension.swift; sourceTree = "<group>"; };
 		0981D94127AD3B67000758C8 /* RestApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestApi.swift; sourceTree = "<group>"; };
 		0981D94327AD9327000758C8 /* MainTranslationControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTranslationControllerViewController.swift; sourceTree = "<group>"; };
 		0981D94527AD9D50000758C8 /* TranslatedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatedViewController.swift; sourceTree = "<group>"; };
@@ -267,6 +273,7 @@
 			isa = PBXGroup;
 			children = (
 				09D8638F27BC0D990084012F /* Weather.swift */,
+				09665598283C2A4500894134 /* extension.swift */,
 				09AFDC0227C2DE5F00AB1C51 /* WeatherBaseState.swift */,
 			);
 			path = Weather;
@@ -391,8 +398,10 @@
 		09D52AE1283B9B2A00D0B982 /* OpenWeatherMap */ = {
 			isa = PBXGroup;
 			children = (
-				0966558A283BF44D00894134 /* OpenWeather.swift */,
 				09A50B2B283BD65900B39BDC /* OpenWeatherAPI.swift */,
+				0966558A283BF44D00894134 /* OpenWeather.swift */,
+				09665596283C297B00894134 /* extension.swift */,
+				09665594283C289300894134 /* Decodable.swift */,
 			);
 			path = OpenWeatherMap;
 			sourceTree = "<group>";
@@ -531,7 +540,9 @@
 				091BE29927B12D4200AE4482 /* TranslationViewModel.swift in Sources */,
 				091BE29327B11B1D00AE4482 /* GoogleAPI.swift in Sources */,
 				09A50B2C283BD65900B39BDC /* OpenWeatherAPI.swift in Sources */,
+				09665595283C289300894134 /* Decodable.swift in Sources */,
 				09AFDC0927C3A2AD00AB1C51 /* Location.swift in Sources */,
+				09665599283C2A4500894134 /* extension.swift in Sources */,
 				091BE29527B11BD500AE4482 /* TranslatedResponse.swift in Sources */,
 				0935116027A81C890032AB10 /* BaseStateViewModel.swift in Sources */,
 				0981D94427AD9327000758C8 /* MainTranslationControllerViewController.swift in Sources */,
@@ -553,6 +564,7 @@
 				09447F7C27B66C0000838132 /* Dependency handler.swift in Sources */,
 				0935116227A81DBA0032AB10 /* CurrencyBaseState.swift in Sources */,
 				09AFDC0327C2DE5F00AB1C51 /* WeatherBaseState.swift in Sources */,
+				09665597283C297B00894134 /* extension.swift in Sources */,
 				09C5F06D2795720200EA50A8 /* SceneDelegate.swift in Sources */,
 				09D19FB3279F00B3007FFAAA /* FixerAPI.swift in Sources */,
 				09D8638E27BBF7890084012F /* WeatherViewController.swift in Sources */,

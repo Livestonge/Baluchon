@@ -6,3 +6,17 @@
 //
 
 import Foundation
+
+struct OpenWeather {
+  
+  let locationName: String
+  let temperature: Double
+  let humidity: Int
+  let description: WeatherDescription
+  
+  static var initialeWeatherState: OpenWeather {
+    return OpenWeather(locationName: "City not found", temperature: 0, humidity: 0, description: .emptyDescription)
+  }
+  
+}
+

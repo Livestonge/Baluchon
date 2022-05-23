@@ -38,7 +38,12 @@ class OpenWeatherAPIProviding: RestApi, WeatherAPIProvider {
     components.queryItems?.append(query)
     let url = components.url!
     return makeRequestFor(url: url)
-                    .decode(type: Weather.self, decoder: JSONDecoder())
+                    .decode(type: OpenWeather.self, decoder: JSONDecoder())
+                    .map{ Weather(locationName: $0.locationName,
+                                  temperature: $0.temperature,
+                                  humidity: $0.humidity,
+                                  description: .init(description: $0.description.description,
+                                                     icon: $0.description.icon))}
   }
   
   func getLocalWeather(for location: Location) -> Observable<Weather> {
@@ -50,6 +55,11 @@ class OpenWeatherAPIProviding: RestApi, WeatherAPIProvider {
     components.queryItems! += locationQueries
     let url = components.url!
     return makeRequestFor(url: url)
-                        .decode(type: Weather.self, decoder: JSONDecoder())
+                        .decode(type: OpenWeather.self, decoder: JSONDecoder())
+                        .map{ Weather(locationName: $0.locationName,
+                                      temperature: $0.temperature,
+                                      humidity: $0.humidity,
+                                      description: .init(description: $0.description.description,
+                                                         icon: $0.description.icon))}
   }
 }
