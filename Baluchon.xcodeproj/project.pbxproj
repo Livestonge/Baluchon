@@ -27,13 +27,15 @@
 		0935116027A81C890032AB10 /* BaseStateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0935115F27A81C890032AB10 /* BaseStateViewModel.swift */; };
 		0935116227A81DBA0032AB10 /* CurrencyBaseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0935116127A81DBA0032AB10 /* CurrencyBaseState.swift */; };
 		0935116427A8205F0032AB10 /* CurrencyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0935116327A8205F0032AB10 /* CurrencyViewModel.swift */; };
-		093F1CFB283A54FC000B069E /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093F1CFA283A54FC000B069E /* ApiKeys.swift */; };
 		093F1CFD283A596C000B069E /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093F1CFC283A596C000B069E /* Currency.swift */; };
 		093F1D02283A5D16000B069E /* FixerCurrencyExchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093F1D01283A5D16000B069E /* FixerCurrencyExchange.swift */; };
 		09447F7C27B66C0000838132 /* Dependency handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09447F7B27B66C0000838132 /* Dependency handler.swift */; };
 		09447F7F27B66C6C00838132 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 09447F7E27B66C6C00838132 /* Swinject */; };
 		09447F8427B6717900838132 /* SwinjectStoryboard in Frameworks */ = {isa = PBXBuildFile; productRef = 09447F8327B6717900838132 /* SwinjectStoryboard */; };
 		094ADC6C279AC6BF005B2437 /* SwitchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 094ADC6B279AC6BF005B2437 /* SwitchView.swift */; };
+		0966558B283BF44D00894134 /* OpenWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0966558A283BF44D00894134 /* OpenWeather.swift */; };
+		0966558F283BF61000894134 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0966558E283BF61000894134 /* ApiKeys.swift */; };
+		09665593283C249700894134 /* ApiKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09665592283C249700894134 /* ApiKeys.swift */; };
 		0981D94227AD3B67000758C8 /* RestApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0981D94127AD3B67000758C8 /* RestApi.swift */; };
 		0981D94427AD9327000758C8 /* MainTranslationControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0981D94327AD9327000758C8 /* MainTranslationControllerViewController.swift */; };
 		0981D94627AD9D50000758C8 /* TranslatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0981D94527AD9D50000758C8 /* TranslatedViewController.swift */; };
@@ -89,11 +91,13 @@
 		0935115F27A81C890032AB10 /* BaseStateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseStateViewModel.swift; sourceTree = "<group>"; };
 		0935116127A81DBA0032AB10 /* CurrencyBaseState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyBaseState.swift; sourceTree = "<group>"; };
 		0935116327A8205F0032AB10 /* CurrencyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyViewModel.swift; sourceTree = "<group>"; };
-		093F1CFA283A54FC000B069E /* ApiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		093F1CFC283A596C000B069E /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		093F1D01283A5D16000B069E /* FixerCurrencyExchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixerCurrencyExchange.swift; sourceTree = "<group>"; };
 		09447F7B27B66C0000838132 /* Dependency handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dependency handler.swift"; sourceTree = "<group>"; };
 		094ADC6B279AC6BF005B2437 /* SwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchView.swift; sourceTree = "<group>"; };
+		0966558A283BF44D00894134 /* OpenWeather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenWeather.swift; sourceTree = "<group>"; };
+		0966558E283BF61000894134 /* ApiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
+		09665592283C249700894134 /* ApiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
 		0981D94127AD3B67000758C8 /* RestApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestApi.swift; sourceTree = "<group>"; };
 		0981D94327AD9327000758C8 /* MainTranslationControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTranslationControllerViewController.swift; sourceTree = "<group>"; };
 		0981D94527AD9D50000758C8 /* TranslatedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslatedViewController.swift; sourceTree = "<group>"; };
@@ -339,6 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				09C5F06A2795720200EA50A8 /* AppDelegate.swift */,
+				09665592283C249700894134 /* ApiKeys.swift */,
 				09C5F06C2795720200EA50A8 /* SceneDelegate.swift */,
 				0915DEB927B7CF3F00010192 /* ViewModels */,
 				0915DEB827B7CEFC00010192 /* DI */,
@@ -352,7 +357,7 @@
 				09C5F0732795720200EA50A8 /* Assets.xcassets */,
 				09C5F0752795720200EA50A8 /* LaunchScreen.storyboard */,
 				09C5F0782795720200EA50A8 /* Info.plist */,
-				093F1CFA283A54FC000B069E /* ApiKeys.swift */,
+				0966558E283BF61000894134 /* ApiKeys.swift */,
 			);
 			path = Baluchon;
 			sourceTree = "<group>";
@@ -386,6 +391,7 @@
 		09D52AE1283B9B2A00D0B982 /* OpenWeatherMap */ = {
 			isa = PBXGroup;
 			children = (
+				0966558A283BF44D00894134 /* OpenWeather.swift */,
 				09A50B2B283BD65900B39BDC /* OpenWeatherAPI.swift */,
 			);
 			path = OpenWeatherMap;
@@ -530,9 +536,11 @@
 				0935116027A81C890032AB10 /* BaseStateViewModel.swift in Sources */,
 				0981D94427AD9327000758C8 /* MainTranslationControllerViewController.swift in Sources */,
 				09AFDC0527C2E1C800AB1C51 /* WeatherViewModel.swift in Sources */,
+				09665593283C249700894134 /* ApiKeys.swift in Sources */,
+				0966558F283BF61000894134 /* ApiKeys.swift in Sources */,
 				094ADC6C279AC6BF005B2437 /* SwitchView.swift in Sources */,
 				093F1CFD283A596C000B069E /* Currency.swift in Sources */,
-				093F1CFB283A54FC000B069E /* ApiKeys.swift in Sources */,
+				0966558B283BF44D00894134 /* OpenWeather.swift in Sources */,
 				091BE29727B12B0700AE4482 /* Language.swift in Sources */,
 				09D52AE0283B975700D0B982 /* extension.swift in Sources */,
 				09F0175627CA44E100A380D6 /* BaluchonAlert.swift in Sources */,
