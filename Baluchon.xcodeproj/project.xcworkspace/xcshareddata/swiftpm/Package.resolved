@@ -1,0 +1,43 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "FlagKit",
+        "repositoryURL": "https://github.com/madebybowtie/FlagKit.git",
+        "state": {
+          "branch": null,
+          "revision": "f12111d91902d23fd1d9cc7ad9198030b049795d",
+          "version": "2.4.0"
+        }
+      },
+      {
+        "package": "RxSwift",
+        "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "c8742ed97fc2f0c015a5ea5eddefb064cd7532d2",
+          "version": "6.0.0"
+        }
+      },
+      {
+        "package": "Swinject",
+        "repositoryURL": "https://github.com/Swinject/Swinject.git",
+        "state": {
+          "branch": null,
+          "revision": "f10b6e9ebff440f985c43008f7c2d097639fcb81",
+          "version": "2.8.1"
+        }
+      },
+      {
+        "package": "SwinjectStoryboard",
+        "repositoryURL": "https://github.com/Swinject/SwinjectStoryboard.git",
+        "state": {
+          "branch": null,
+          "revision": "a39bd7abe7e7427f9a0929a402cf2d1916fa5d50",
+          "version": "2.2.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
