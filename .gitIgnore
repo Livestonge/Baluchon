@@ -89,4 +89,5 @@ fastlane/test_output
 
 iOSInjectionProject/
 ApiKeys
+Baluchon.xcodeproj/xcshareddata/xcschemes/Baluchon.xcscheme
 Baluchon.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
