@@ -24,13 +24,10 @@ extension RestApi{
     let req = URLRequest(url: url)
     return URLSession.shared.rx.response(request: req)
                                .flatMap{ response, data -> Observable<Data> in
-                                 let badResponse = processServer(response)
-                                 guard badResponse == nil else {
-                                   return Observable.error(badResponse!)
-                                 }
+                                 try processServer(response)
                                  guard let mime = response.mimeType, mime == "application/json"
                                  else {
-                                   return Observable.error(BaluchonError.badContentType)
+                                   throw BaluchonError.badContentType
                                  }
                                    return Observable.just(data)
                                }
@@ -44,12 +41,11 @@ extension RestApi{
     return nil
   }
   
-  private func processServer(_ response: HTTPURLResponse) -> BaluchonError?{
-    guard (200...299).contains(response.statusCode) == false else {return nil}
-    
-    if response.statusCode == 404 {
-      return BaluchonError.ressourceNotFound
+  private func processServer(_ response: HTTPURLResponse) throws {
+    switch response.statusCode {
+    case 200...299: break
+    case 404: throw BaluchonError.ressourceNotFound
+    default: throw BaluchonError.badServerResponse
     }
-    return BaluchonError.badServerResponse
   }
 }

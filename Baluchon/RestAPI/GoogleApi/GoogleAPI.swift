@@ -39,6 +39,7 @@ class GoogleTranslateServiceProviding: RestApi, TranslateServiceProvider {
   func translate(text: String, from: Language, to: Language) -> Observable<TranslatedResponse>{
     let url = getUrlWith(text: text, target: to, source: from)
     return makeRequestFor(url: url)
-                         .decode(type: TranslatedResponse.self, decoder: JSONDecoder())
+                         .decode(type: GoogleTranslatedResponse.self, decoder: JSONDecoder())
+                         .map{ TranslatedResponse(text: $0.translatedText) }
   }
 }

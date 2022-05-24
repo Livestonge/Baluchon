@@ -28,6 +28,7 @@
 		0935116227A81DBA0032AB10 /* CurrencyBaseState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0935116127A81DBA0032AB10 /* CurrencyBaseState.swift */; };
 		0935116427A8205F0032AB10 /* CurrencyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0935116327A8205F0032AB10 /* CurrencyViewModel.swift */; };
 		093B8BD7283CEF7900D1C272 /* FixerCurrencyExchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093B8BD6283CEF7900D1C272 /* FixerCurrencyExchange.swift */; };
+		093B8BDA283D1BE100D1C272 /* GoogleTranslatedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093B8BD9283D1BE100D1C272 /* GoogleTranslatedResponse.swift */; };
 		093F1CFD283A596C000B069E /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093F1CFC283A596C000B069E /* Currency.swift */; };
 		09447F7C27B66C0000838132 /* Dependency handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09447F7B27B66C0000838132 /* Dependency handler.swift */; };
 		09447F7F27B66C6C00838132 /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 09447F7E27B66C6C00838132 /* Swinject */; };
@@ -95,6 +96,7 @@
 		0935116127A81DBA0032AB10 /* CurrencyBaseState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyBaseState.swift; sourceTree = "<group>"; };
 		0935116327A8205F0032AB10 /* CurrencyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyViewModel.swift; sourceTree = "<group>"; };
 		093B8BD6283CEF7900D1C272 /* FixerCurrencyExchange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FixerCurrencyExchange.swift; sourceTree = "<group>"; };
+		093B8BD9283D1BE100D1C272 /* GoogleTranslatedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTranslatedResponse.swift; sourceTree = "<group>"; };
 		093F1CFC283A596C000B069E /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		09447F7B27B66C0000838132 /* Dependency handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dependency handler.swift"; sourceTree = "<group>"; };
 		094ADC6B279AC6BF005B2437 /* SwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchView.swift; sourceTree = "<group>"; };
@@ -218,7 +220,7 @@
 			children = (
 				09D52AE1283B9B2A00D0B982 /* OpenWeatherMap */,
 				093F1D00283A5CE7000B069E /* Fixer */,
-				091BE29227B11B1D00AE4482 /* GoogleAPI.swift */,
+				093B8BD8283D1AF400D1C272 /* GoogleApi */,
 				0981D94127AD3B67000758C8 /* RestApi.swift */,
 			);
 			path = RestAPI;
@@ -250,6 +252,15 @@
 				0922E6DC27CD48EA007FBA0A /* TranslationViewModelTest.swift */,
 			);
 			path = ViewModelTests;
+			sourceTree = "<group>";
+		};
+		093B8BD8283D1AF400D1C272 /* GoogleApi */ = {
+			isa = PBXGroup;
+			children = (
+				091BE29227B11B1D00AE4482 /* GoogleAPI.swift */,
+				093B8BD9283D1BE100D1C272 /* GoogleTranslatedResponse.swift */,
+			);
+			path = GoogleApi;
 			sourceTree = "<group>";
 		};
 		093F1D00283A5CE7000B069E /* Fixer */ = {
@@ -542,6 +553,7 @@
 				091BE29327B11B1D00AE4482 /* GoogleAPI.swift in Sources */,
 				09A50B2C283BD65900B39BDC /* OpenWeatherAPI.swift in Sources */,
 				09665595283C289300894134 /* Decodable.swift in Sources */,
+				093B8BDA283D1BE100D1C272 /* GoogleTranslatedResponse.swift in Sources */,
 				09AFDC0927C3A2AD00AB1C51 /* Location.swift in Sources */,
 				09665599283C2A4500894134 /* Weather_extension.swift in Sources */,
 				091BE29527B11BD500AE4482 /* TranslatedResponse.swift in Sources */,
