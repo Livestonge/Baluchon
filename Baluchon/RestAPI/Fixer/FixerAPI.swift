@@ -102,6 +102,6 @@ struct CurrencyStorage: Codable{
  var currencyExchange: CurrencyExchange
  
  var hasExpired: Bool{
-  return Date() > (date + 3600 * 24 * 3)
+  return Date() > (date + 1)
  }
 }

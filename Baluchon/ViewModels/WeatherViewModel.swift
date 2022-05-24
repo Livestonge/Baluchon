@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-class WeatherViewModel: BaseStateActionViewModel<WeatherBaseState, WeatherBaseAction>{
+class WeatherViewModel: BaseStateActionManager<WeatherBaseState, WeatherBaseAction>{
   
   let service: WeatherAPIProvider
   let dispose = DisposeBag()

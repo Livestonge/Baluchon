@@ -7,17 +7,17 @@
 
 import Foundation
 import RxSwift
-import RxRelay
 
-class CurrencyViewModel: BaseStateActionViewModel<CurrentBaseState, CurrencyBaseStateAction>{
+class CurrencyManager: BaseStateActionManager<CurrentBaseState, CurrencyBaseStateAction>{
   
-  private let fixerService: CurrencyServiceProvider
+  private let service: CurrencyServiceProvider
+  weak var delegate: ConvertedValueDelegate?
   
   init(initialState: CurrentBaseState,
        initialAction: CurrencyBaseStateAction,
        service: CurrencyServiceProvider) {
     
-    self.fixerService = service
+    self.service = service
     super.init(initialState: initialState, initialAction: initialAction)
     
     getActionChanges{ [weak self] action in
@@ -28,6 +28,22 @@ class CurrencyViewModel: BaseStateActionViewModel<CurrentBaseState, CurrencyBase
         self?.didSwitchedBaseCurrencyWith(userInput: userInput)
       }
     }
+    
+    getStateChanges()
+                    .map(\.convertedValue)
+                    .subscribe(onNext: { [weak self ] value in
+                      self?.delegate?.didReceiveConverted(value: value)
+                    })
+                    .disposed(by: disposeBag)
+    
+    getStateChanges()
+                    .compactMap(\.error)
+                    .subscribe(onNext: { [weak self] error in
+                      self?.delegate?.didFailWith(error)
+                    })
+                    .disposed(by: disposeBag)
+    
+         
   }
   
   private func makeConversion(forValue value: Double){
@@ -36,7 +52,7 @@ class CurrencyViewModel: BaseStateActionViewModel<CurrentBaseState, CurrencyBase
       self.updateConvertedValue(value)
       return
     }
-    fixerService.getCurrencyExchange()
+    service.getCurrencyExchange()
                 .map(\.baseRate)
                 .subscribe(onNext: { [weak self] rate in
                   self?.updateState{ state in

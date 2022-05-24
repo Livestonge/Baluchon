@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 @testable import Baluchon
 
-class CurrencyMock: CurrencyViewModel{
+class CurrencyMock: CurrencyManager{
   
   class MockService: CurrencyServiceProvider{
     func getCurrencyExchange() -> Observable<CurrencyExchange> {

@@ -11,10 +11,10 @@ import RxSwift
 
 class CurrencyViewModelTest: CurrencyAPITest {
 
-  var viewModel: CurrencyViewModel?
+  var viewModel: CurrencyManager?
   
   override func setUpWithError() throws {
-    viewModel = CurrencyViewModel(initialState: .init(),
+    viewModel = CurrencyManager(initialState: .init(),
                                   initialAction: .hasTappedValue(100.0),
                                   service: FixerServiceProviding())
       try super.setUpWithError()

@@ -29,7 +29,7 @@ class ViewController: UIViewController {
   private var toggleCurrencies = false
   private var mainStackCenterYConstraint: NSLayoutConstraint!
   
-  var currencyViewModel: CurrencyViewModel!
+  var currencyManager: CurrencyManager!
   let disposeBag = DisposeBag()
   
   override func loadView() {
@@ -60,6 +60,8 @@ class ViewController: UIViewController {
                                            name: UIResponder.keyboardWillHideNotification,
                                            object: nil)
     
+    currencyManager.delegate = self
+    
     userInputTextField.rx
                       .controlEvent([.editingDidEndOnExit, .editingDidBegin])
                       .map{ self.userInputTextField.text ?? ""}
@@ -67,30 +69,9 @@ class ViewController: UIViewController {
                       .map{ Double($0) ?? 0.0}
                       .observe(on: MainScheduler.instance)
                       .subscribe(onNext: { [weak self] value in
-                        self?.currencyViewModel.action = .hasTappedValue(value)
+                        self?.currencyManager.action = .hasTappedValue(value)
                       })
                       .disposed(by: disposeBag)
-    
-    let state = currencyViewModel.getStateChanges()
-                                 .asDriver(onErrorJustReturn: CurrentBaseState())
-    
-     state.map(\.convertedValue)
-          .map{ value -> String in
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .decimal
-            formatter.maximumFractionDigits = 2
-            let number = NSNumber(value: value)
-            return formatter.string(from: number)!
-          }
-          .drive(self.convertedCurrencyLabel.rx.text)
-          .disposed(by: disposeBag)
-    
-     state.map(\.error)
-          .drive(onNext: { [weak self] error in
-            guard let error = error else {return}
-            self?.presentAlertFor(error)
-          })
-          .disposed(by: disposeBag)
     
 	}
   
@@ -121,7 +102,7 @@ class ViewController: UIViewController {
     toggleCurrencies.toggle()
     toggleDisplayOfCurrencies()
     let value = Double(userInputTextField.text ?? "") ?? 0.0
-    currencyViewModel.action = .didSwitchedCurrency(value)
+    currencyManager.action = .didSwitchedCurrency(value)
     
   }
   
@@ -144,11 +125,6 @@ class ViewController: UIViewController {
     NSLayoutConstraint.activate([mainStackCenterYConstraint])
     
   }
-  
-  private func presentAlertFor(_ error: BaluchonError){
-    let alertVC = BaluchonAlert(error: error).controller
-    present(alertVC, animated: true)
-  }
 
 }
 
@@ -165,7 +141,7 @@ extension ViewController: UITextFieldDelegate{
       text += string
     }
     let value = Double(text) ?? 0.0
-    self.currencyViewModel.action = .hasTappedValue(value)
+    self.currencyManager.action = .hasTappedValue(value)
     
     return true
   }

@@ -25,8 +25,8 @@ class DependencyHandler{
   func injectDependencies(){
     
     self.container.storyboardInitCompleted(ViewController.self){ resolver, controller in
-      let viewModel = resolver.resolve(CurrencyViewModel.self)!
-      controller.currencyViewModel = viewModel
+      let viewModel = resolver.resolve(CurrencyManager.self)!
+      controller.currencyManager = viewModel
     }
     
     self.container.storyboardInitCompleted(MainTranslationControllerViewController.self){ resolver, controller in
@@ -61,10 +61,10 @@ class DependencyHandler{
       return FixerServiceProviding()
     }
     
-    container.register(CurrencyViewModel.self){ resolver in
+    container.register(CurrencyManager.self){ resolver in
       
       let service = resolver.resolve(CurrencyServiceProvider.self)!
-      return CurrencyViewModel(initialState: CurrentBaseState(),
+      return CurrencyManager(initialState: CurrentBaseState(),
                                initialAction: .hasTappedValue(100.0),
                                service: service)
     }

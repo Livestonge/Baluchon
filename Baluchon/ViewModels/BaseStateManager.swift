@@ -8,7 +8,7 @@ import Foundation
 import RxSwift
 import RxRelay
 
-open class BaseStateViewModel<S>: NSObject {
+open class BaseStateManager<S>: NSObject {
   private var stateRelay: BehaviorRelay<S>
   let disposeBag = DisposeBag()
 
@@ -19,6 +19,7 @@ open class BaseStateViewModel<S>: NSObject {
 
   public func getStateChanges() -> Observable<S> {
     stateRelay
+      .subscribe(on: MainScheduler.instance)
       .asObservable()
   }
 
@@ -33,7 +34,7 @@ open class BaseStateViewModel<S>: NSObject {
   }
 }
 
-open class BaseStateActionViewModel<S, A>: BaseStateViewModel<S> {
+open class BaseStateActionManager<S, A>: BaseStateManager<S> {
   private var actionRelay: BehaviorRelay<A>
   public var action: A {
     set {

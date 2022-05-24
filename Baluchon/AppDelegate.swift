@@ -12,7 +12,11 @@ func delay(_ seconds: TimeInterval, completion: @escaping () -> Void ){
                                 execute: completion)
 }
 
-
+func subscribeToMainThread(_ handler: @escaping () -> Void){
+  DispatchQueue.main.async {
+    handler()
+  }
+}
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

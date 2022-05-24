@@ -10,7 +10,7 @@ import RxSwift
 import RxRelay
 
 
-class TranslationViewModel: BaseStateActionViewModel<TranslationBaseState, TranslationBaseStateAction>{
+class TranslationViewModel: BaseStateActionManager<TranslationBaseState, TranslationBaseStateAction>{
   
   let apiService: TranslateServiceProvider
   
