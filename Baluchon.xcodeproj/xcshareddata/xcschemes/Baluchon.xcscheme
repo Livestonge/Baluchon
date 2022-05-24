@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1320"
+   LastUpgradeVersion = "1340"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -36,16 +36,6 @@
                BlueprintIdentifier = "09C5F07C2795720300EA50A8"
                BuildableName = "BaluchonTests.xctest"
                BlueprintName = "BaluchonTests"
-               ReferencedContainer = "container:Baluchon.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "09C5F0862795720300EA50A8"
-               BuildableName = "BaluchonUITests.xctest"
-               BlueprintName = "BaluchonUITests"
                ReferencedContainer = "container:Baluchon.xcodeproj">
             </BuildableReference>
          </TestableReference>

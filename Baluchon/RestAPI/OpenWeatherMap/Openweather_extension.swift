@@ -50,10 +50,3 @@ extension OpenWeather {
     }
   }
 }
-
-extension OpenWeather: Equatable{
-  
-  static func ==(lhs: OpenWeather, rhs: OpenWeather) -> Bool{
-    return lhs.locationName == rhs.locationName && lhs.temperature == rhs.temperature
-  }
-}
