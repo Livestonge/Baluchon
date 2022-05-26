@@ -8,9 +8,10 @@
 import Foundation
 import RxSwift
 
-class WeatherViewModel: BaseStateActionManager<WeatherBaseState, WeatherBaseAction>{
+class WeatherManager: BaseStateActionManager<WeatherBaseState, WeatherBaseAction>{
   
   let service: WeatherAPIProvider
+  weak var delegate: WeatherDataDelegate?
   let dispose = DisposeBag()
   
   init(initialeState: WeatherBaseState, iniatialAction: WeatherBaseAction, service: WeatherAPIProvider){
@@ -27,6 +28,20 @@ class WeatherViewModel: BaseStateActionManager<WeatherBaseState, WeatherBaseActi
         self.getUserLocation()
       }
     }
+    
+    getStateChanges()
+      .map(\.localWeather)
+      .subscribe(onNext: { [weak self] weather in
+        self?.delegate?.didReceive(weather)
+      })
+      .disposed(by: disposeBag)
+    
+    getStateChanges()
+      .compactMap(\.error)
+      .subscribe(onNext: { [weak self] error in
+        self?.delegate?.didFailWith(error)
+      })
+      .disposed(by: disposeBag)
   }
   
   private func getWeatherFor(city: String){

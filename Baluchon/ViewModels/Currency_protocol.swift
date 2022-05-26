@@ -7,7 +7,6 @@
 
 import Foundation
 
-protocol ConvertedValueDelegate: AnyObject {
+protocol ConvertedValueDelegate: AnyObject, Failable {
   func didReceiveConverted(value: Double)
-  func didFailWith(_ error: BaluchonError)
 }

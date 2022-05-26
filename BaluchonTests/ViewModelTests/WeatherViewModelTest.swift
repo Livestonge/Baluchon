@@ -11,10 +11,10 @@ import RxSwift
 
 class WeatherViewModelTest: OpenWeatherAPITest {
     
-    var viewModel: WeatherViewModel?
+    var viewModel: WeatherManager?
   
     override func setUpWithError() throws {
-      viewModel = WeatherViewModel(initialeState: .init(),
+      viewModel = WeatherManager(initialeState: .init(),
                                    iniatialAction: .none,
                                    service: OpenWeatherAPIProviding())
       try super.setUpWithError()

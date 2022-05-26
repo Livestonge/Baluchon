@@ -25,18 +25,18 @@ class DependencyHandler{
   func injectDependencies(){
     
     self.container.storyboardInitCompleted(ViewController.self){ resolver, controller in
-      let viewModel = resolver.resolve(CurrencyManager.self)!
-      controller.currencyManager = viewModel
+      let manager = resolver.resolve(CurrencyManager.self)!
+      controller.currencyManager = manager
     }
     
     self.container.storyboardInitCompleted(MainTranslationControllerViewController.self){ resolver, controller in
-      let viewModel = resolver.resolve(TranslationViewModel.self)!
-      controller.translationViewModel = viewModel
+      let manager = resolver.resolve(TranslationViewModel.self)!
+      controller.translationViewModel = manager
     }
     
     self.container.storyboardInitCompleted(WeatherViewController.self){ resolver, controller in
-      let viewModel = resolver.resolve(WeatherViewModel.self)!
-      controller.weatherViewModel = viewModel
+      let manager = resolver.resolve(WeatherManager.self)!
+      controller.weatherManager = manager
     }
   
 }
@@ -76,11 +76,11 @@ class DependencyHandler{
       return OpenWeatherAPIProviding()
     }
     
-    container.register(WeatherViewModel.self){ resolver in
+    container.register(WeatherManager.self){ resolver in
       
       let service = resolver.resolve(WeatherAPIProvider.self)!
       
-      return WeatherViewModel(initialeState: WeatherBaseState(),
+      return WeatherManager(initialeState: WeatherBaseState(),
                               iniatialAction: .none,
                               service: service)
     }

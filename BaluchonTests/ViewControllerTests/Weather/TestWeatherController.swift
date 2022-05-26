@@ -18,7 +18,7 @@ class TestWeatherController: XCTestCase {
       try super.setUpWithError()
       let storyboard = UIStoryboard(name: "Main", bundle: nil)
       sut = storyboard.instantiateViewController(withIdentifier: "WeatherViewController") as! WeatherViewController
-      sut.weatherViewModel = MockWeatherViewModel()
+      sut.weatherManager = MockWeatherViewModel()
       sut.loadViewIfNeeded()
       
     }
@@ -30,7 +30,7 @@ class TestWeatherController: XCTestCase {
   
   func testCityTextField(){
 //    When
-    let city = sut.weatherViewModel.getCurrentState().localWeather.locationName
+    let city = sut.weatherManager.getCurrentState().localWeather.locationName
 //    Then
     let displayedCity = sut.textFieldCity.text ?? ""
     XCTAssertEqual(city, displayedCity)
@@ -38,7 +38,7 @@ class TestWeatherController: XCTestCase {
   
   func testTemperatureTextField(){
     //    When
-    let temperature = Int(sut.weatherViewModel.getCurrentState().localWeather.temperature).description + "ºC"
+    let temperature = Int(sut.weatherManager.getCurrentState().localWeather.temperature).description + "ºC"
     //    Then
     let displayedTemperature = sut.labelTemperature.text ?? ""
     XCTAssertEqual(temperature, displayedTemperature)
@@ -60,7 +60,7 @@ class TestWeatherController: XCTestCase {
 
 }
 
-class MockWeatherViewModel: WeatherViewModel{
+class MockWeatherViewModel: WeatherManager{
   
   class Service: WeatherAPIProvider{
     func getWeatherFor(city: String) -> Observable<Weather> {
