@@ -14,7 +14,7 @@ class MainTranslationControllerViewController: UIViewController {
   @IBOutlet var buttonChooseLanguage: UIButton!
   private var resetTextButton: UIButton!
   
-  var translationViewModel: TranslationViewModel!
+  var translationManager: TranslationManager!
   let disposeBag = DisposeBag()
   
   override func viewDidLoad() {
@@ -39,26 +39,7 @@ class MainTranslationControllerViewController: UIViewController {
     
     buttonChooseLanguage.addTarget(self, action: #selector(didTapChooseLanguageBt),
                                    for: .touchUpInside)
-    
-    translationViewModel.getStateChanges()
-      .filter { $0.translatedText.isEmpty == false }
-      .map({ state -> (String, String) in     
-        return (state.translatedText, state.textTotranslate)
-      })
-      .observe(on: MainScheduler.instance)
-      .subscribe(onNext: { [weak self] translatedText, sourceText in
-        self?.presentTranslatedVC(with: translatedText, sourceText: sourceText)
-      })
-      .disposed(by: disposeBag)
-    
-    translationViewModel.getStateChanges()
-                        .map(\.translationError)
-                        .observe(on: MainScheduler.instance)
-                        .subscribe(onNext: { [weak self] error in
-                          guard let error = error else {return}
-                          self?.presentAlertFor(error)
-                        })
-                        .disposed(by: disposeBag)
+    translationManager.delegate = self
     
   }
   
@@ -72,23 +53,10 @@ class MainTranslationControllerViewController: UIViewController {
     displayResetButton()
   }
   
-  private func presentAlertFor(_ error: BaluchonError){
-    let alertVC = BaluchonAlert(error: error).controller
-    present(alertVC, animated: true)
-  }
-  
-  private func presentTranslatedVC(with translatedText: String, sourceText: String){
-    guard let vc = storyboard?.instantiateViewController(withIdentifier: "translatedVC") as? TranslatedViewController else { return }
-    vc.translatedText = translatedText
-    vc.sourceText = sourceText
-    if let _ = navigationController?.topViewController as? TranslatedViewController { return }
-    navigationController?.pushViewController(vc, animated: true)
-  }
-  
   private func presentLanguageOptions(){
     
     guard let textToTranslate = textViewMain.text, isInCorrectFormat(textToTranslate) else {
-      self.translationViewModel.action = .didProvideWrongInput(.providedOnlyDigits)
+      self.translationManager.action = .didProvideWrongInput(.providedOnlyDigits)
       return }
     
     let alert = UIAlertController(title: "Choose a language",
@@ -97,12 +65,12 @@ class MainTranslationControllerViewController: UIViewController {
     
     let frenchOption = UIAlertAction(title: "Français",
                                      style: .default) { [weak self] _ in
-      self?.translationViewModel.action = .didChooseLanguage(.fr, textToTranslate)
+      self?.translationManager.action = .didChooseLanguage(.fr, textToTranslate)
                                                       }
     
     let englishOption = UIAlertAction(title: "Anglais",
                                       style: .default){ [weak self] _ in
-      self?.translationViewModel.action = .didChooseLanguage(.en, textToTranslate)
+      self?.translationManager.action = .didChooseLanguage(.en, textToTranslate)
                                                       }
     alert.addAction(frenchOption)
     alert.addAction(englishOption)

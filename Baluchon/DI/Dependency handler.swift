@@ -30,8 +30,8 @@ class DependencyHandler{
     }
     
     self.container.storyboardInitCompleted(MainTranslationControllerViewController.self){ resolver, controller in
-      let manager = resolver.resolve(TranslationViewModel.self)!
-      controller.translationViewModel = manager
+      let manager = resolver.resolve(TranslationManager.self)!
+      controller.translationManager = manager
     }
     
     self.container.storyboardInitCompleted(WeatherViewController.self){ resolver, controller in
@@ -46,10 +46,10 @@ class DependencyHandler{
       return GoogleTranslateServiceProviding()
                                                     }
     
-    container.register(TranslationViewModel.self){ resolver in
+    container.register(TranslationManager.self){ resolver in
       
       let service = resolver.resolve(TranslateServiceProvider.self)!
-      return TranslationViewModel(initialState: TranslationBaseState(),
+      return TranslationManager(initialState: TranslationBaseState(),
                                   initialAction: .none,
                                   service: service)
     }

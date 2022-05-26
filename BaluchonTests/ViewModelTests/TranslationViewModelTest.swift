@@ -10,10 +10,10 @@ import XCTest
 
 class TranslationViewModelTest: TranslateAPITest {
   
-  var viewModel: TranslationViewModel?
+  var viewModel: TranslationManager?
 
   override func setUpWithError() throws {
-    viewModel = TranslationViewModel(initialState: .init(),
+    viewModel = TranslationManager(initialState: .init(),
                                      initialAction: .none,
                                      service: GoogleTranslateServiceProviding())
     try super.setUpWithError()

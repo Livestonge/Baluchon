@@ -9,10 +9,14 @@ import Foundation
 import RxSwift
 import RxRelay
 
+protocol TranslationSourceDelegate: AnyObject, Failable{
+  func getUserTranslation(_ translation: (String, String))
+}
 
-class TranslationViewModel: BaseStateActionManager<TranslationBaseState, TranslationBaseStateAction>{
+class TranslationManager: BaseStateActionManager<TranslationBaseState, TranslationBaseStateAction>{
   
   let apiService: TranslateServiceProvider
+  weak var delegate: TranslationSourceDelegate?
   
   init(initialState: TranslationBaseState,
        initialAction: TranslationBaseStateAction,
@@ -30,6 +34,26 @@ class TranslationViewModel: BaseStateActionManager<TranslationBaseState, Transla
       default: break
       }
     }
+    
+    getStateChanges()
+                    .filter { $0.translatedText.isEmpty == false && $0.translationError == nil}
+                    .map({ state -> (String, String) in
+                      return (state.translatedText, state.textTotranslate)
+                    })
+                    .observe(on: MainScheduler.instance)
+                    .subscribe(onNext: { [weak self] translatedText, sourceText in
+                      let translation = (translatedText, sourceText)
+                      self?.delegate?.getUserTranslation(translation)
+                    })
+                    .disposed(by: disposeBag)
+    
+    getStateChanges()
+                    .compactMap(\.translationError)
+                    .observe(on: MainScheduler.instance)
+                    .subscribe(onNext: { [weak self] error in
+                      self?.delegate?.didFailWith(error)
+                    })
+                    .disposed(by: disposeBag)
   }
   
   private func handle(_ error: BaluchonError){

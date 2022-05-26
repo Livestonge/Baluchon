@@ -19,7 +19,7 @@ class TranslationControllersTest: XCTestCase {
       let storyboard = UIStoryboard(name: "Main", bundle: nil)
       navigationSut = storyboard.instantiateViewController(withIdentifier: "NavigationController") as! UINavigationController
       sourceSut = navigationSut.topViewController as! MainTranslationControllerViewController
-      sourceSut.translationViewModel = MockTranslationViewModel()
+      sourceSut.translationManager = MockTranslationViewModel()
       sourceSut.loadViewIfNeeded()
     }
 
@@ -30,7 +30,7 @@ class TranslationControllersTest: XCTestCase {
   
   func testStateChanges() throws {
 //  When
-    sourceSut.translationViewModel.action = .didChooseLanguage(.en, "Testing")
+    sourceSut.translationManager.action = .didChooseLanguage(.en, "Testing")
 //  Then
     delay(2){ [weak self] in
       guard let vc = try? XCTUnwrap(self?.navigationSut.topViewController as? TranslatedViewController) else {
@@ -55,7 +55,7 @@ class TranslationControllersTest: XCTestCase {
 
 }
 
-class MockTranslationViewModel: TranslationViewModel{
+class MockTranslationViewModel: TranslationManager{
   
   struct Service: TranslateServiceProvider{
     func translate(text: String, from: Language, to: Language) -> Observable<TranslatedResponse> {
