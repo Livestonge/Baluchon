@@ -9,10 +9,6 @@ import Foundation
 import RxSwift
 import RxRelay
 
-protocol TranslationSourceDelegate: AnyObject, Failable{
-  func getUserTranslation(_ translation: (String, String))
-}
-
 class TranslationManager: BaseStateActionManager<TranslationBaseState, TranslationBaseStateAction>{
   
   let apiService: TranslateServiceProvider
