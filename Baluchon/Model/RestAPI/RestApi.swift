@@ -22,9 +22,20 @@ extension RestApi{
       return observer
     }
     
-    let req = URLRequest(url: url)
-    return URLSession.shared.rx.response(request: req)
-                               .flatMap{ response, data -> Observable<Data> in
+    return Observable<(HTTPURLResponse,Data)>.create{ observer in
+      
+      let task = session.dataTask(with: url){ data, response, error in
+        guard let data = data, let response = response as? HTTPURLResponse else{
+          observer.onError(error ?? BaluchonError.badServerResponse)
+          return
+        }
+        
+        observer.onNext((response, data))
+        observer.onCompleted()
+      }
+      task.resume()
+      return Disposables.create()
+    }.flatMap{ response, data -> Observable<Data> in
                                  try processServer(response)
                                  guard let mime = response.mimeType, mime == "application/json"
                                  else {
