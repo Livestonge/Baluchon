@@ -12,7 +12,7 @@ import Foundation
 // Instantiate a urlsession instance with the newly created configuration
 // Create an instance of an FixerServiceProviding object with the new urlSession instance.
 
-class MockUrlProtocol: URLProtocol{
+class UrlSessionProxy: URLProtocol{
   static var error: Error?
   static var requestHandler: ((URLRequest) throws -> (Data, HTTPURLResponse))?
   
@@ -20,22 +20,27 @@ class MockUrlProtocol: URLProtocol{
     return true
   }
   
+  override class func canInit(with task: URLSessionTask) -> Bool {
+    return true
+  }
+  
   override class func canonicalRequest(for request: URLRequest) -> URLRequest {
-    print("canonical request")
+    print("canonical request with \(request.url)")
     return request
   }
+
   
   override func startLoading() {
     print("start loading")
-    if let error = MockUrlProtocol.error{
+    if let error = UrlSessionProxy.error{
       client?.urlProtocol(self, didFailWithError: error)
     }
     
-    guard let handler = MockUrlProtocol.requestHandler else {
+    guard let handler = UrlSessionProxy.requestHandler else {
       assertionFailure("Did receive nil for the request handler")
       return
     }
-    
+    print("Handler do exist ")
     do{
       let (data, response) = try handler(request)
       client?.urlProtocol(self,
@@ -43,18 +48,21 @@ class MockUrlProtocol: URLProtocol{
                           cacheStoragePolicy: .notAllowed)
       client?.urlProtocol(self, didLoad: data)
       client?.urlProtocolDidFinishLoading(self)
+      print("client updated")
+      
     } catch {
       client?.urlProtocol(self, didFailWithError: error)
     }
   }
   
   override func stopLoading() {
-//    ToDo
+    client?.urlProtocolDidFinishLoading(self)
   }
   
-  class func reset(){
+  static func reset(){
     self.error = nil
     self.requestHandler = nil
+    print("did reset")
   }
   
 }
