@@ -10,6 +10,10 @@ import Foundation
 
 struct GoogleTranslatedResponse: Decodable, Equatable{
   let translatedText: String
+  
+  func mapToTranslatedResponse() -> TranslatedResponse {
+    TranslatedResponse(text: translatedText)
+  }
 }
 
 extension GoogleTranslatedResponse{

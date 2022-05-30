@@ -14,6 +14,11 @@ protocol TranslateServiceProvider {
 class GoogleTranslateServiceProviding: RestApi, TranslateServiceProvider {
   
   var mock = googleTranslatedData!
+  var session: URLSession
+  
+  init(session: URLSession = .shared){
+    self.session = session
+  }
   
   var components: URLComponents {
     var components = URLComponents()
@@ -39,7 +44,8 @@ class GoogleTranslateServiceProviding: RestApi, TranslateServiceProvider {
   func translate(text: String, from: Language, to: Language) -> Observable<TranslatedResponse>{
     let url = getUrlWith(text: text, target: to, source: from)
     return makeRequestFor(url: url)
+                         .subscribe(on: MainScheduler.instance)
                          .decode(type: GoogleTranslatedResponse.self, decoder: JSONDecoder())
-                         .map{ TranslatedResponse(text: $0.translatedText) }
+                         .map{ $0.mapToTranslatedResponse() }
   }
 }

@@ -15,7 +15,11 @@ protocol WeatherAPIProvider{
 
 class OpenWeatherAPIProviding: RestApi, WeatherAPIProvider {
   
-  let session = URLSession.shared
+  let session: URLSession
+  
+  init(session: URLSession = .shared){
+    self.session = session
+  }
   var mock = weatherData!
   
   var components: URLComponents{
@@ -39,11 +43,7 @@ class OpenWeatherAPIProviding: RestApi, WeatherAPIProvider {
     let url = components.url!
     return makeRequestFor(url: url)
                     .decode(type: OpenWeather.self, decoder: JSONDecoder())
-                    .map{ Weather(locationName: $0.locationName,
-                                  temperature: $0.temperature,
-                                  humidity: $0.humidity,
-                                  description: .init(description: $0.description.description,
-                                                     icon: $0.description.icon))}
+                    .map{ $0.mapToWeather() }
   }
   
   func getLocalWeather(for location: Location) -> Observable<Weather> {

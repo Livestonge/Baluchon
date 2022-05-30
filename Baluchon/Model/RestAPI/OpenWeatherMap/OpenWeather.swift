@@ -18,5 +18,13 @@ struct OpenWeather {
     return OpenWeather(locationName: "City not found", temperature: 0, humidity: 0, description: .emptyDescription)
   }
   
+  func mapToWeather() -> Weather{
+    Weather(locationName: locationName,
+            temperature: temperature,
+            humidity: humidity,
+            description: .init(description: description.description,
+                               icon: description.icon))
+  }
+  
 }
 

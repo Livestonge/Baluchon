@@ -10,6 +10,7 @@ import RxSwift
 
 protocol RestApi {
   var mock: Data { get }
+  var session: URLSession { get }
   func makeRequestFor(url: URL) -> Observable<Data>
 }
 

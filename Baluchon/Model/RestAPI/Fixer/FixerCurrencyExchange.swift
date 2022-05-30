@@ -12,4 +12,10 @@ struct FixerCurrencyExchange {
   let date: Date
   var base: Currency
   var rates: [Currency: Double] = [:]
+  
+  func mapToCurrencyExchange() -> CurrencyExchange{
+           CurrencyExchange(date: date,
+                            base: base,
+                            rates: rates)
+  }
 }

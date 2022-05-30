@@ -17,6 +17,11 @@ protocol CurrencyServiceProvider{
 class FixerServiceProviding: RestApi, CurrencyServiceProvider {
   
   var mock = jsonData!
+  var session: URLSession
+  
+  init(session: URLSession = .shared){
+    self.session = session
+  }
   
   private var dateFormatter: DateFormatter {
     let dateFormatter = DateFormatter()
