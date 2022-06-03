@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct TranslatedResponse: Equatable{
+struct TranslatedResponse: Equatable, Decodable{
   let text: String
 }

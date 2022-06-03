@@ -41,7 +41,9 @@ class OpenWeatherAPIProviding: RestApi, WeatherAPIProvider {
     var components = self.components
     components.queryItems?.append(query)
     let url = components.url!
+    
     return makeRequestFor(url: url)
+                    .subscribe(on: MainScheduler.instance)
                     .decode(type: OpenWeather.self, decoder: JSONDecoder())
                     .map{ $0.mapToWeather() }
   }

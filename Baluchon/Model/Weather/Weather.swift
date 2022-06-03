@@ -19,3 +19,5 @@ struct Weather {
   }
   
 }
+
+extension Weather: Decodable{}
