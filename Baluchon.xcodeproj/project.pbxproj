@@ -72,6 +72,8 @@
 		09D52AE0283B975700D0B982 /* Currency_extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D52ADF283B975700D0B982 /* Currency_extension.swift */; };
 		09D8638E27BBF7890084012F /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D8638D27BBF7890084012F /* WeatherViewController.swift */; };
 		09D8639027BC0D990084012F /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D8638F27BC0D990084012F /* Weather.swift */; };
+		09ECFB042847A0D700DBEB81 /* URL_extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ECFB022847A0BB00DBEB81 /* URL_extension.swift */; };
+		09ECFB062847A1AD00DBEB81 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ECFB052847A1AD00DBEB81 /* Storage.swift */; };
 		09F0175627CA44E100A380D6 /* BaluchonAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F0175527CA44E100A380D6 /* BaluchonAlert.swift */; };
 /* End PBXBuildFile section */
 
@@ -112,6 +114,7 @@
 		09447F7B27B66C0000838132 /* Dependency handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dependency handler.swift"; sourceTree = "<group>"; };
 		0945F8A1283F97A200AEC755 /* Translation_conformance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Translation_conformance.swift; sourceTree = "<group>"; };
 		0945F8A4283F9EE000AEC755 /* Translation_protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Translation_protocol.swift; sourceTree = "<group>"; };
+		09461BF628476B1C0010D54E /* BaluchonUnitTest.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = BaluchonUnitTest.xctestplan; path = BaluchonTests/BaluchonUnitTest.xctestplan; sourceTree = SOURCE_ROOT; };
 		094ADC6B279AC6BF005B2437 /* SwitchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchView.swift; sourceTree = "<group>"; };
 		0966558A283BF44D00894134 /* OpenWeather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenWeather.swift; sourceTree = "<group>"; };
 		09665592283C249700894134 /* ApiKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeys.swift; sourceTree = "<group>"; };
@@ -149,6 +152,8 @@
 		09D8638D27BBF7890084012F /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		09D8638F27BC0D990084012F /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		09DFFFAF284237DC008E1E80 /* UrlSessionProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSessionProxy.swift; sourceTree = "<group>"; };
+		09ECFB022847A0BB00DBEB81 /* URL_extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL_extension.swift; sourceTree = "<group>"; };
+		09ECFB052847A1AD00DBEB81 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		09F0175527CA44E100A380D6 /* BaluchonAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaluchonAlert.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -287,6 +292,8 @@
 				09D19FB2279F00B3007FFAAA /* FixerAPI.swift */,
 				093B8BD6283CEF7900D1C272 /* FixerCurrencyExchange.swift */,
 				09808E56283CEB84007D4F7C /* Decoding_Fixer.swift */,
+				09ECFB052847A1AD00DBEB81 /* Storage.swift */,
+				09ECFB022847A0BB00DBEB81 /* URL_extension.swift */,
 			);
 			path = Fixer;
 			sourceTree = "<group>";
@@ -428,6 +435,7 @@
 		09C5F0802795720300EA50A8 /* BaluchonTests */ = {
 			isa = PBXGroup;
 			children = (
+				09461BF628476B1C0010D54E /* BaluchonUnitTest.xctestplan */,
 				098BB97A27D4DF2E0047B4A0 /* ViewControllerTests */,
 				0922E6D827CD1942007FBA0A /* RestAPITests */,
 				0922E6DB27CD48C1007FBA0A /* ViewModelTests */,
@@ -616,6 +624,7 @@
 				09D52AE0283B975700D0B982 /* Currency_extension.swift in Sources */,
 				093B8BD7283CEF7900D1C272 /* FixerCurrencyExchange.swift in Sources */,
 				09F0175627CA44E100A380D6 /* BaluchonAlert.swift in Sources */,
+				09ECFB062847A1AD00DBEB81 /* Storage.swift in Sources */,
 				091BE29B27B12E1C00AE4482 /* TranslationBaseState.swift in Sources */,
 				098CBDB5279DB7C300365D2D /* CurrencyExchange.swift in Sources */,
 				093B8BE0283D45F500D1C272 /* Weather_protocol.swift in Sources */,
@@ -627,6 +636,7 @@
 				09447F7C27B66C0000838132 /* Dependency handler.swift in Sources */,
 				0935116227A81DBA0032AB10 /* CurrencyBaseState.swift in Sources */,
 				09AFDC0327C2DE5F00AB1C51 /* WeatherBaseState.swift in Sources */,
+				09ECFB042847A0D700DBEB81 /* URL_extension.swift in Sources */,
 				09665597283C297B00894134 /* Openweather_extension.swift in Sources */,
 				09C5F06D2795720200EA50A8 /* SceneDelegate.swift in Sources */,
 				09D19FB3279F00B3007FFAAA /* FixerAPI.swift in Sources */,

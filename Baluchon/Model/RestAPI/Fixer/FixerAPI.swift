@@ -18,9 +18,11 @@ class FixerServiceProviding: RestApi, CurrencyServiceProvider {
   
   var mock = jsonData!
   var session: URLSession
+  private var fileStorage: URL
   
-  init(session: URLSession = .shared){
+  init(session: URLSession = .shared, storage: URL = .currencyStorage){
     self.session = session
+    self.fileStorage = storage 
   }
   
   private var dateFormatter: DateFormatter {
@@ -28,11 +30,6 @@ class FixerServiceProviding: RestApi, CurrencyServiceProvider {
     dateFormatter.dateFormat = "yyyy-MM-dd"
     return dateFormatter
   }
-  
-  lazy private var fileStorage: URL = {
-    let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-    return path.appendingPathComponent("currencyStorage")
-  }()
   
   lazy private var decoder: JSONDecoder = {
     let decoder = JSONDecoder()
@@ -64,14 +61,11 @@ class FixerServiceProviding: RestApi, CurrencyServiceProvider {
     let url = self.components.url!
     
     return makeRequestFor(url: url)
+                  .subscribe(on: MainScheduler.instance)
                   .decode(type: FixerCurrencyExchange.self, decoder: decoder)
-                  .map{ fixerCurrencyExchange -> CurrencyExchange in
-                    return CurrencyExchange(date: fixerCurrencyExchange.date,
-                                            base: fixerCurrencyExchange.base,
-                                            rates: fixerCurrencyExchange.rates)
-                  }
-                  .do(onNext: { value in
-                    self.saveCurrent(userCurrencyExchange: value)
+                  .map{ $0.mapToCurrencyExchange() }
+                  .do(onNext: { [weak self] value in
+                    self?.saveCurrent(userCurrencyExchange: value)
                   })
                        
   }
@@ -90,7 +84,7 @@ class FixerServiceProviding: RestApi, CurrencyServiceProvider {
   private func getStoredCurrencyExchanges() -> CurrencyStorage?{
     guard let data = try? Data(contentsOf: self.fileStorage) else {return nil}
     
-    return try! self.decoder.decode(CurrencyStorage.self, from: data)
+    return try? self.decoder.decode(CurrencyStorage.self, from: data)
   }
   
   func getStoredCurrencyExchange() -> CurrencyExchange? {
@@ -99,14 +93,4 @@ class FixerServiceProviding: RestApi, CurrencyServiceProvider {
     return dataHasExpired ? nil : storedCurrencyExchange.currencyExchange
   }
   
-}
-
-
-struct CurrencyStorage: Codable{
- let date: Date
- var currencyExchange: CurrencyExchange
- 
- var hasExpired: Bool{
-  return Date() > (date + 3600 * 24 * 3)
- }
 }
