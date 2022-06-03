@@ -7,24 +7,31 @@
 
 import XCTest
 import RxSwift
+import RxBlocking
 @testable import Baluchon
 
 class TranslateAPITest: XCTestCase {
-  var service: GoogleTranslateServiceProviding?
+  var service: GoogleTranslateServiceProviding!
   
   lazy var translated: TranslatedResponse? = {
     let data = googleTranslatedData!
-    return try? JSONDecoder().decode(TranslatedResponse.self, from: data)
+    return try? JSONDecoder().decode(GoogleTranslatedResponse.self, from: data).mapToTranslatedResponse()
   }()
   
-  override func setUpWithError() throws {
-      service = GoogleTranslateServiceProviding()
-      try super.setUpWithError()
+  override func setUp(){
+    UrlSessionProxy.reset()
+    let configuration = URLSessionConfiguration.ephemeral
+    configuration.protocolClasses = [UrlSessionProxy.self]
+    let session = URLSession(configuration: configuration)
+    service = GoogleTranslateServiceProviding(session: session)
+    super.setUp()
     }
 
-  override func tearDownWithError() throws {
+  override func tearDown(){
+        super.tearDown()
+        service.session.configuration.protocolClasses = nil
         service = nil
-        try super.tearDownWithError()
+        
     }
   
   func testURL() throws {
@@ -50,16 +57,26 @@ class TranslateAPITest: XCTestCase {
   }
   
   func testTranslate() throws{
-    let expectation = self.expectation(description: "Translation")
+    let expectation = XCTestExpectation(description: "Translation")
     var receivedTranslatedResponse: TranslatedResponse?
+    let response = HTTPURLResponse(url: service!.components.url!,
+                                   statusCode: 200,
+                                   httpVersion: nil,
+                                   headerFields: ["Content-Type": "application/json"])!
     
-    service?.translate(text: "Ceci est un test", from: .fr, to: .en)
-            .subscribe(onNext: { translated in
-              receivedTranslatedResponse = translated
-              expectation.fulfill()
-            })
-    waitForExpectations(timeout: 2, handler: nil)
+    UrlSessionProxy.requestHandler = { [response] request throws -> (Data, HTTPURLResponse) in
+      return (googleTranslatedData!, response)
+    }
+    
+    _ = service.translate(text: "Ceci est un test", from: .fr, to: .en)
+              .subscribe(onNext: { translatedResponse in
+                receivedTranslatedResponse = translatedResponse
+                expectation.fulfill()
+              })
+    
+    wait(for: [expectation], timeout: 2)
     XCTAssertEqual(receivedTranslatedResponse, translated)
+    
   }
   
 

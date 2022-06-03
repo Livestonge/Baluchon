@@ -12,7 +12,7 @@ import RxSwift
 
 class CurrencyAPITest: XCTestCase {
   
-  var service: FixerServiceProviding?
+  var service: FixerServiceProviding!
   let bag = DisposeBag()
   
   private var dateFormatter: DateFormatter {
@@ -36,10 +36,10 @@ class CurrencyAPITest: XCTestCase {
     return components
   }()
   
-  lazy private var fileStorage: URL = {
+  private var fileStorage: URL {
     let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-    return path.appendingPathComponent("currencyStorage")
-  }()
+    return path.appendingPathComponent("testCurrencyStorage")
+  }
   
   lazy var decoder: JSONDecoder = {
     let decoder = JSONDecoder()
@@ -51,55 +51,87 @@ class CurrencyAPITest: XCTestCase {
     return try? decoder.decode(CurrencyExchange.self, from: jsonData!)
   }()
 
-    override func setUpWithError() throws {
-      service = FixerServiceProviding()
-      try super.setUpWithError()
+    override func setUp() {
+      super.setUp()
+      UrlSessionProxy.reset()
+      let configuration = URLSessionConfiguration.ephemeral
+      configuration.protocolClasses = [UrlSessionProxy.self]
+      let session = URLSession(configuration: configuration)
+      let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+      let testUrl = path.appendingPathComponent("testCurrencyStorage")
+      service = FixerServiceProviding(session: session, storage: testUrl)
     }
 
-    override func tearDownWithError() throws {
-        service = nil
-      try super.tearDownWithError()
+    override func tearDown(){
+      super.tearDown()
+      service.session.configuration.protocolClasses = nil
+      service = nil
+      deleteStoredCurrency()
     }
   
   func testURL(){
     XCTAssertEqual(self.components.url, service?.components.url)
   }
   
+  private func deleteStoredCurrency(){
+    
+    let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    let file: URL = path.appendingPathComponent("testCurrencyStorage")
+    do{
+      try Data().write(to: file, options: .atomic)
+    }catch{
+      print(error.localizedDescription)
+      
+    }
+    
+    
+  }
+  
   func getStoredCurrency() -> CurrencyExchange? {
+    deleteStoredCurrency()
+    
+    let currencyStorage = CurrencyStorage(date: .now, currencyExchange: mockedCurrency!)
+    let encoder = JSONEncoder()
+    encoder.dateEncodingStrategy = .formatted(self.dateFormatter)
+    let data = try? encoder.encode(currencyStorage)
+    try? data?.write(to: self.fileStorage, options: .atomic)
+    
     guard let storedData = try? Data(contentsOf: self.fileStorage),
         let storedCurrency = try? decoder.decode(CurrencyStorage.self, from: storedData),
-          storedCurrency.hasExpired == false else
-          { return nil }
+          storedCurrency.hasExpired == false
+     else { return nil }
+    
     return storedCurrency.currencyExchange
   }
   
-  func testgetCurrency() throws{
-    let expectation = self.expectation(description: "CurrencyExchange")
-    var expectedCurrency: CurrencyExchange? = nil
-    var receivedCurrency: CurrencyExchange? = nil
+  func testgetCurrency() {
+    let expectation = XCTestExpectation(description: "CurrencyExchange")
+    var receivedCurrency: CurrencyExchange?
+    let response = HTTPURLResponse(url: self.components.url!,
+                                   statusCode: 200,
+                                   httpVersion: nil,
+                                   headerFields: ["Content-Type": "application/json"])!
     
-    if let storedCurrency = getStoredCurrency() {
-      expectedCurrency = storedCurrency
-    }else {
-      expectedCurrency = self.mockedCurrency!
+    UrlSessionProxy.requestHandler = { [response] request throws -> (Data, HTTPURLResponse) in
+      return (jsonData!, response)
     }
+     _ = self.service.getCurrencyExchange()
+                                     .subscribe(onNext: { currency in
+                                       receivedCurrency = currency
+                                       expectation.fulfill()
+                                     })
     
-    service?.getCurrencyExchange()
-      .subscribe(onNext: { currency in
-        receivedCurrency = currency
-        expectation.fulfill()
-      })
-      .disposed(by: bag)
-    
-    waitForExpectations(timeout: 2, handler: nil)
-    XCTAssertEqual(receivedCurrency, expectedCurrency)
-    
-  }
+    wait(for: [expectation], timeout: 2)
+    XCTAssertEqual(receivedCurrency, self.mockedCurrency)
+    XCTAssertNotNil(receivedCurrency)
+    }
   
-  func testGettingSavedCurrency() throws {
+  func testGettingSavedCurrency() {
     let expectedCurrency = getStoredCurrency()
-    let currency = service?.getStoredCurrencyExchange()
+    let currency = service.getStoredCurrencyExchange()
+    
     XCTAssertEqual(expectedCurrency, currency)
+    XCTAssertNotNil(expectedCurrency)
   }
 
 }

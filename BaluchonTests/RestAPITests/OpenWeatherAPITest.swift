@@ -11,21 +11,40 @@ import RxSwift
 
 class OpenWeatherAPITest: XCTestCase {
 
-  var provider : OpenWeatherAPIProviding?
+  var provider : OpenWeatherAPIProviding!
   let bag = DisposeBag()
 
   lazy var mockedWeather: Weather? = {
-    return try? JSONDecoder().decode(Weather.self, from: weatherData!)
+    guard let openWeather = try? JSONDecoder().decode(OpenWeather.self, from: weatherData!)
+    else { return nil }
+    return openWeather.mapToWeather()
   }()
 
-  override func setUpWithError() throws {
-      provider = OpenWeatherAPIProviding()
-      try super.setUpWithError()
+  override func setUp() {
+    let configuration = URLSessionConfiguration.ephemeral
+    configuration.protocolClasses = [UrlSessionProxy.self]
+    let session = URLSession(configuration: configuration)
+    provider = OpenWeatherAPIProviding(session: session)
+    super.setUp()
   }
 
-  override func tearDownWithError() throws {
+  override func tearDown() {
+      super.tearDown()
+      provider?.session.configuration.protocolClasses = nil
       provider = nil
-      try super.tearDownWithError()
+     UrlSessionProxy.reset()
+  }
+  
+  private func configureUrlSessionProxy() {
+    let response = HTTPURLResponse(url: URL(string: "www.vg.no")!,
+                                   statusCode: 200,
+                                   httpVersion: nil,
+                                   headerFields: ["Content-Type": "application/json"])!
+    
+    UrlSessionProxy.requestHandler = { _ throws -> (Data, HTTPURLResponse) in
+      return (weatherData!, response)
+    }
+    
   }
 
   func testURL() throws {
@@ -36,40 +55,41 @@ class OpenWeatherAPITest: XCTestCase {
 
 func testGetWeatherByCity(){
 
-  let expectation = self.expectation(description: "weather for city")
+  let expectation = XCTestExpectation(description: "weather for city")
   var receivedWeather: Weather?
-
-  provider?.getWeatherFor(city: "Paris")
+  configureUrlSessionProxy()
+  
+  _ = provider.getWeatherFor(city: "Paris")
            .subscribe(onNext: { weather in
             receivedWeather = weather
             expectation.fulfill()
            })
-           .disposed(by: bag)
 
-  waitForExpectations(timeout: 2, handler: nil)
+  wait(for: [expectation], timeout: 2)
   XCTAssertEqual(receivedWeather, self.mockedWeather)
 }
 
 func testGetWeatherByLocation(){
 
-  let expection = self.expectation(description: "weather for a location")
+  let expection = XCTestExpectation(description: "weather for a location")
   let parisLocation = Location(latitude: 48.8534, longitude: 2.3488)
   var receivedWeather: Weather?
+  configureUrlSessionProxy()
 
-  provider?.getLocalWeather(for: parisLocation)
+  _ = provider?.getLocalWeather(for: parisLocation)
            .subscribe(onNext: { weather in
              receivedWeather = weather
              expection.fulfill()
            })
-           .disposed(by: bag)
 
-  waitForExpectations(timeout: 2, handler: nil)
-  XCTAssertEqual(receivedWeather, self.mockedWeather)
+  wait(for: [expection], timeout: 2)
+  let mocked = self.mockedWeather
+  XCTAssertEqual(receivedWeather!, mocked!)
 }
   
   func testMockData() throws {
     let data = try XCTUnwrap(provider?.mock)
-    let weather = try JSONDecoder().decode(Weather.self, from: data)
+    let weather = try? JSONDecoder().decode(OpenWeather.self, from: data).mapToWeather()
     XCTAssertEqual(weather, self.mockedWeather)
   }
 }

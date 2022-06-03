@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "517CD7CD-81A9-4EA4-B57A-2DB35BE5E521",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Baluchon.xcodeproj",
+        "identifier" : "09C5F07C2795720300EA50A8",
+        "name" : "BaluchonTests"
+      }
+    }
+  ],
+  "version" : 1
+}
