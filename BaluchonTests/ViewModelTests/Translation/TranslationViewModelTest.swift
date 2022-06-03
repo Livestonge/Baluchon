@@ -6,16 +6,18 @@
 //
 
 import XCTest
+import RxBlocking
+import RxSwift
 @testable import Baluchon
 
-class TranslationViewModelTest: TranslateAPITest {
+class TranslationViewModelTest: XCTestCase {
   
   var viewModel: TranslationManager?
 
   override func setUpWithError() throws {
     viewModel = TranslationManager(initialState: .init(),
                                      initialAction: .none,
-                                     service: GoogleTranslateServiceProviding())
+                                     service: MockGoogleRestApi())
     try super.setUpWithError()
     }
 
@@ -25,16 +27,22 @@ class TranslationViewModelTest: TranslateAPITest {
     }
 
     func testActionChanges() throws {
+      let expectation = XCTestExpectation(description: "test action changes")
 //        When
       let textToTranslate = "Ceci est un test"
+      var currentState: TranslationBaseState?
       let language: Language = .en
       viewModel?.action = .didChooseLanguage(language, textToTranslate)
 //      then
-      delay(2){ [weak self] in
-        let currentState = self?.viewModel?.getCurrentState()
-        XCTAssertEqual(textToTranslate, currentState?.textTotranslate)
-        XCTAssertEqual(language, currentState?.targetLanguage)
-      }
+      _ = self.viewModel?.getStateChanges()
+                         .subscribe(onNext: { state in
+                           currentState = state
+                           expectation.fulfill()
+                         })
+      
+      wait(for: [expectation], timeout: 2)
+      XCTAssertEqual(currentState?.textTotranslate, textToTranslate)
+      XCTAssertEqual(currentState?.targetLanguage, language)
     }
   
   func testStateChanges(){
@@ -50,16 +58,21 @@ class TranslationViewModelTest: TranslateAPITest {
   
   func testTranslatedText(){
  // When
+    let expectation = XCTestExpectation(description: "test translation")
     let textToTranslate = "Ceci est un test"
+    var translatedText: String?
     let language: Language = .en
     viewModel?.action = .didChooseLanguage(language, textToTranslate)
-    
+
 //  Then
-    delay(2){ [weak self] in
-      let currentState = self?.viewModel?.getCurrentState()
-      XCTAssertEqual(self?.translated?.text, currentState?.translatedText)
-    }
-    
+    _ = self.viewModel?.getStateChanges()
+                       .subscribe(onNext: { state in
+                         translatedText = state.translatedText
+                         expectation.fulfill()
+                       })
+    wait(for: [expectation], timeout: 2)
+    XCTAssertEqual(translatedText, "Write your text here")
+
   }
 
 }

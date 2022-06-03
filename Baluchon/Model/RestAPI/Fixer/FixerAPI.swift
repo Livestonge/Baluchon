@@ -31,7 +31,7 @@ class FixerServiceProviding: RestApi, CurrencyServiceProvider {
     return dateFormatter
   }
   
-  lazy private var decoder: JSONDecoder = {
+  lazy var decoder: JSONDecoder = {
     let decoder = JSONDecoder()
     decoder.dateDecodingStrategy = .formatted(dateFormatter)
     return decoder

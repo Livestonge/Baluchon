@@ -17,7 +17,7 @@ class ViewControllerTest: XCTestCase {
       try super.setUpWithError()
     let storyboard = UIStoryboard(name: "Main", bundle: nil)
     sut = storyboard.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-    sut.currencyViewModel = CurrencyMock()
+    sut.currencyManager = CurrencyMock()
     sut.loadViewIfNeeded()
   }
 
@@ -43,7 +43,7 @@ class ViewControllerTest: XCTestCase {
     sut.didTapOnSwitchView(gesture)
 //    Then
     delay(2){ [weak self] in
-      let baseCurrency = self?.sut.currencyViewModel.getCurrentState().baseCurrency.rawValue
+      let baseCurrency = self?.sut.currencyManager.getCurrentState().baseCurrency.rawValue
       XCTAssertEqual(baseCurrency, "USD")
     }
     

@@ -74,6 +74,7 @@ class CurrencyManager: BaseStateActionManager<CurrentBaseState, CurrencyBaseStat
   
   private func updateConvertedValue( _ newValue: Double){
     updateState{ state in
+      
       if state.baseCurrency == .EUR {
         state.convertedValue = newValue * state.rate
       }else{
