@@ -13,6 +13,11 @@
   },
   "testTargets" : [
     {
+      "skippedTests" : [
+        "TestWeatherController",
+        "TranslationControllersTest",
+        "ViewControllerTest"
+      ],
       "target" : {
         "containerPath" : "container:Baluchon.xcodeproj",
         "identifier" : "09C5F07C2795720300EA50A8",
